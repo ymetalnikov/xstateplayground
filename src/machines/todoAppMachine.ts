@@ -13,17 +13,19 @@ export const TODO_STATE_CREATE = "CREATE";
 type Context = {
   todos: Todo[] | null;
 };
+
 type Events = {
   type: typeof TODO_EVENT_CREATE;
   value: string;
 };
+
 type Services = {
   loadToDos: { data: Awaited<ReturnType<typeof getTodos>> };
 };
 
 export const todosMachine = createMachine(
   {
-    /** @xstate-layout N4IgpgJg5mDOIC5QBcD2FUDoAyB5AggCICSAcgOIDEGAdmJgJY0BuqA1vTMgCrqqwBtAAwBdRKAAO-Bsgaoa4kAA9EQgDQgAnqoC+OjWgw4CJCpTAAnC6guYJAGwCGyAGY2Atpi68Mg0YqlYGTkFJGVVDW0EIT19EBp0OEVDVADpWXlFFQQAWgBmACYAFkwATgA2coBGPIB2KqqCqoBWWtrmyMQcgA5azEKC0pqi0u7mqqK8qr0DPmMiMnI0oIzQ0Gycgtryssqa+saWto6tRCqhPLKL8oLmvJvy5sfpuJT5wgBRQmXgzLCNgpCbqYIrlIRbbrdApggrdUq1ToIPJAzDdKrlIpCSalQp3IqxHRAA */
+    /** @xstate-layout N4IgpgJg5mDOIC5QBcD2FUDoAyB5AggCICSAcgOIDEGAdmJgJY0BuqA1vTMgCrqqwBtAAwBdRKAAO-Bsgaoa4kAA9EAVgDsATkyqAHEKEBGTUIBMAZiGqALKoA0IAJ6IAtNYBsmdxdPXd7411zD3cAX1CHNAwcAhIKSjAAJ0TURMwJABsAQ2QAM1SAW0wuXgxBUUUpWBk5BSRlRHNdQx1rTWtfVUN1dV1rdQdnBFNdbT11dwm9A3VDXXDIvhiiAFFCSiisAGNEsBywYTF6qpr5RRUEVS6vazbuzXd2w1NNQcbDVUw+92DTAMN3AZTOEIiAaOg4IpNpVpLIzvULiZMOYPppTADHnpzBM3ggXIZzOZMO0Aj8+r1NOZNAsQJtlnFyDDqnC6qALgTdMjUej3JigjinI1rJgzF1Hn8zJNvDS6XhVoQmadWQ0EIDTF9Jj1pnNZq9BcNbJhrJZNCYhLZVEIJjKlgBhABKK3w3BWipZ5zUwWRAU03S6GmNhlx2O0aKEgNmpitvJBoSAA */
     id: "todo",
 
     tsTypes: {} as import("./todoAppMachine.typegen").Typegen0,
@@ -72,6 +74,12 @@ export const todosMachine = createMachine(
         invoke: {
           id: todoCreateMachine.id,
           src: todoCreateMachine,
+          onDone: {
+            target: TODO_STATE_LOADED,
+            actions: (_, event) => {
+              console.log('Todo creation done:', event.data);
+            },
+          },
         },
       },
     },
@@ -79,12 +87,9 @@ export const todosMachine = createMachine(
   {
     actions: {
       setTodos: assign({
-        todos: (_, event) => {
-          console.log(event);
-          return event.data;
-        },
+        todos: (_, event) =>  event.data,
       }),
-      setError: (_, event) => {},
+      setError: () => {},
     },
     services: {
       loadToDos: async () => await getTodos(),

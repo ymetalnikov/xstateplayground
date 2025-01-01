@@ -1,3 +1,4 @@
+import { Toggle } from '@/components/Toggle/Toggle';
 import cm from './styles.module.css';
 
 interface ToDoItemProps {
@@ -10,9 +11,12 @@ interface ToDoItemProps {
 
 
 export function ToDoItem({ item }: ToDoItemProps) {
+
+	const handleChange = () => {}
+
 	return (
 		<li className={cm.todoItem}>
-			<input className={cm.toggle} type="checkbox" checked={item.completed} />
+			<Toggle checked={item.completed} onChange={handleChange} />
 			<span className={cm.text}>{item.text}</span>
 			<div>
 				<button>📝</button>

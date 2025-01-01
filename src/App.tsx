@@ -1,36 +1,29 @@
-import { useMachine } from "@xstate/react";
-import { TODO_EVENT_CREATE, TODO_STATE_CREATE, TODO_STATE_LOADING, todosMachine } from "./machines/todoAppMachine";
-import { ToDoItem, ToDoList } from "./features/ToDoList";
-import { Wrapper } from "./features/Wrapper";
+import { useSelector } from "@xstate/react";
+import { match } from 'ts-pattern';
+import {
+  TODO_STATE_LOADED,
+  TODO_STATE_CREATE,
+  TODO_STATE_LOADING,
+} from "./machines/todoAppMachine";
+
+import { Wrapper } from "./components/Wrapper";
+import { ToDoLoaded } from "./features/ToDoList";
+import { ToDoCreate } from "./features/ToDoCreate";
+import { useTodoAppService } from "@/machines/TodoAppMachineContext";
 
 import "./App.css";
-import { AddTodo } from "./features/AddTodo";
 
 function App() {
-  const [state, send] = useMachine(todosMachine);
-
-  const handleClick = () => {
-    send(TODO_EVENT_CREATE);
-  };
-
-  if (state.value === TODO_STATE_LOADING) {
-    return <Wrapper>Loading...</Wrapper>;
-  }
-
-  if (state.value === TODO_STATE_CREATE) {
-    return <Wrapper><AddTodo /></Wrapper>
-  }
+  const service = useTodoAppService();
+  const state = useSelector(service, (state) => state.value);
 
   return (
     <Wrapper>
-      <div>
-        <button onClick={handleClick}>Add➕</button>
-      </div>
-      <ToDoList>
-        {state.context.todos?.map((item) => (
-          <ToDoItem key={item.id} item={item} />
-        ))}
-      </ToDoList>
+      {match(state)
+        .with(TODO_STATE_LOADING, () => <p>Loading...</p>)
+        .with(TODO_STATE_LOADED, () => <ToDoLoaded />)
+        .with(TODO_STATE_CREATE, () => <ToDoCreate />)
+        .otherwise(() => null)}
     </Wrapper>
   );
 }
