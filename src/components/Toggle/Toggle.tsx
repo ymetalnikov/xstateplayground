@@ -1,19 +1,20 @@
-import cm from './styles.module.css';
+import cm from "./styles.module.css";
 
-export function Toggle(props: { checked: boolean, onChange: (checked: boolean) => void }) {
+export function Toggle(props: {
+	checked: boolean;
+	onChange: (checked: boolean) => void;
+}) {
 
-    console.log('Toggle', props.checked);
-
-    return (
-        <label className={cm.switch}>
-            <input
-                checked={props.checked}
-                onChange={(event) => {
-                    props.onChange(event.target.checked)
-                }}
-                type="checkbox"
-            />
-            <span className={cm.slider} />
-        </label>
-    );
+	return (
+		<label className={cm.switch}>
+			<input
+				checked={props.checked}
+				onChange={(event) => {
+					props.onChange(event.target.checked);
+				}}
+				type="checkbox"
+			/>
+			<span className={cm.slider} />
+		</label>
+	);
 }

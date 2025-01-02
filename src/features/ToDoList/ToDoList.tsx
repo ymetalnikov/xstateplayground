@@ -1,16 +1,13 @@
-import { ReactNode } from 'react';
+import { ReactNode } from "react";
 
-import cm from './styles.module.css';
+import cm from "./styles.module.css";
 
 interface ToDoListProps {
 	children: ReactNode;
 }
 
 export function ToDoList({ children }: ToDoListProps) {
-	return (
-		<ul className={cm.todoList}>
-			{children}
-		</ul>
-	);
+	return <div className={cm.wrapperList}>
+    <ul className={cm.todoList}>{children}</ul>
+  </div>;
 }
-

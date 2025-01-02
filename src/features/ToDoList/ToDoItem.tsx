@@ -1,24 +1,22 @@
-import { Toggle } from '@/components/Toggle/Toggle';
-import cm from './styles.module.css';
+import { Toggle } from "@/components/Toggle/Toggle";
+import cm from "./styles.module.css";
 
 interface ToDoItemProps {
 	item: {
-		id: string
-		text: string
-		completed: boolean
-	}
+		id: string;
+		text: string;
+		completed: boolean;
+	};
 }
 
-
 export function ToDoItem({ item }: ToDoItemProps) {
-
-	const handleChange = () => {}
+	const handleChange = () => {};
 
 	return (
 		<li className={cm.todoItem}>
 			<Toggle checked={item.completed} onChange={handleChange} />
 			<span className={cm.text}>{item.text}</span>
-			<div>
+			<div className={cm.buttons}>
 				<button>📝</button>
 				<button>❌</button>
 			</div>

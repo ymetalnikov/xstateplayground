@@ -9,19 +9,19 @@ type TodoAppService = InterpreterFrom<typeof todosMachine>;
 const TodoAppContext = createContext<TodoAppService | null>(null);
 
 export const TodoAppProvider = ({ children }: { children: ReactNode }) => {
-  const service = useInterpret(todosMachine);
+	const service = useInterpret(todosMachine);
 
-  return (
-    <TodoAppContext.Provider value={service}>
-        {children}
-    </TodoAppContext.Provider>
-  );
-}
+	return (
+		<TodoAppContext.Provider value={service}>
+			{children}
+		</TodoAppContext.Provider>
+	);
+};
 
 export const useTodoAppService = () => {
-  const context = useContext(TodoAppContext);
-  if (!context) {
-    throw new Error("useTodosService must be used within a TodoAppProvider");
-  }
-  return context;
+	const context = useContext(TodoAppContext);
+	if (!context) {
+		throw new Error("useTodosService must be used within a TodoAppProvider");
+	}
+	return context;
 };

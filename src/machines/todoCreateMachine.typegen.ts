@@ -4,10 +4,12 @@
   export interface Typegen0 {
         '@@xstate/typegen': true;
         internalEvents: {
-          "xstate.init": { type: "xstate.init" };
+          "done.invoke.submitForm": { type: "done.invoke.submitForm"; data: unknown; __tip: "See the XState TS docs to learn how to strongly type this." };
+"error.platform.submitForm": { type: "error.platform.submitForm"; data: unknown };
+"xstate.init": { type: "xstate.init" };
         };
         invokeSrcNameMap: {
-          
+          "submitFormService": "done.invoke.submitForm";
         };
         missingImplementations: {
           actions: never;
@@ -16,8 +18,8 @@
           services: never;
         };
         eventsCausingActions: {
-          "assignFormCheckToContext": "todocreate_event_comp_changed";
-"assignFormInputToContext": "todocreate_event_text_changed";
+          "assignFormCheckToContext": "todocreate.event.comp_changed";
+"assignFormInputToContext": "todocreate.event.text_changed";
         };
         eventsCausingDelays: {
           
@@ -26,9 +28,9 @@
           
         };
         eventsCausingServices: {
-          
+          "submitFormService": "todocreate.event.form_submited";
         };
-        matchesStates: "todocreatestatefinal" | "todocreatestateinit";
+        matchesStates: "todocreatestatefinal" | "todocreatestateinit" | "todocreatestatesubmitting";
         tags: never;
       }
   
